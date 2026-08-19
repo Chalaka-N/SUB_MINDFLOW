@@ -1,109 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart'; // 🔥 1. Firebase Import
+import 'firebase_options.dart'; // 🔥 2. Auto-generated Firebase file
+import 'screens/auth_screen.dart'; // 🔐 3. The new Auth Screen
 
-void main() {
-  runApp(const MindFlowApp());
+final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
+
+void main() async {
+  // Ensure Flutter is initialized before using SharedPreferences and Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // 🔥 Boot up Firebase!
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
+  final prefs = await SharedPreferences.getInstance();
+  
+  // 👇 Check if they have created an account (set in AuthScreen)
+  final hasAccount = prefs.getBool('has_account') ?? false;
+  
+  // Load the saved dark mode preference
+  final isDarkMode = prefs.getBool('dark_mode_enabled') ?? false;
+  if (isDarkMode) themeNotifier.value = ThemeMode.dark;
+
+  // Pass the hasAccount flag into the app
+  runApp(MindFlowApp(hasAccount: hasAccount));
 }
 
 class MindFlowApp extends StatelessWidget {
-  const MindFlowApp({super.key});
+  final bool hasAccount; // 👈 Accept the flag here
+
+  const MindFlowApp({super.key, required this.hasAccount});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MindFlow',
-      debugShowCheckedModeBanner: false,
-      // 🎨 The MindFlow Global Theme
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFDFDFD), // Cloud White
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xFF0D1B3E),       // Flow Blue
-          secondary: Color(0xFF14D3C9),     // Teal
-          tertiary: Color(0xFFFF9F6A),      // Action Coral
-          surface: Color(0xFFE0F7FA),       // Mind Lavender
-          onSurface: Color(0xFF546E7A),     // Slate Gray
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF0D1B3E), // Flow Blue
-          foregroundColor: Color(0xFFFDFDFD), // Cloud White
-          elevation: 0,
-        ),
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
-    );
-  }
-}
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (context, currentMode, child) {
+        return MaterialApp(
+          title: 'MindFlow',
+          debugShowCheckedModeBanner: false,
+          themeMode: currentMode, 
+          
+          theme: ThemeData(
+            scaffoldBackgroundColor: const Color(0xFFFDFDFD),
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF0D1B3E),
+              secondary: Color(0xFF14D3C9),
+              tertiary: Color(0xFFFF9F6A),
+              surface: Color(0xFFE0F7FA),
+              onSurface: Color(0xFF546E7A),
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF0D1B3E),
+              foregroundColor: Color(0xFFFDFDFD),
+              elevation: 0,
+            ),
+            useMaterial3: true,
+          ),
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'MindFlow',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Teal Accent Icon
-            const Icon(
-              Icons.all_inclusive_rounded, // Resembles your infinity logo
-              size: 100,
-              color: Color(0xFF14D3C9), // Teal
+          darkTheme: ThemeData(
+            scaffoldBackgroundColor: const Color(0xFF091022),
+            colorScheme: const ColorScheme.dark(
+              primary: Color(0xFF2CB5C0), 
+              secondary: Color(0xFFA5C953),
+              tertiary: Color(0xFFF16E73), 
+              surface: Color(0xFF14244B), 
+              onSurface: Color(0xFFE0E0E0), 
             ),
-            const SizedBox(height: 24),
-            // Primary Brand Text
-            const Text(
-              'MindFlow',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF0D1B3E), // Flow Blue
-              ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF091022),
+              foregroundColor: Colors.white,
+              elevation: 0,
             ),
-            const SizedBox(height: 8),
-            // Secondary Neutral Text
-            const Text(
-              'Navigate your mind.\nChart your flow.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF546E7A), // Slate Gray
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 48),
-            // Highlight Call-to-Action Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF9F6A), // Action Coral
-                foregroundColor: const Color(0xFFFDFDFD), // Cloud White
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                elevation: 2,
-              ),
-              onPressed: () {
-                // TODO: Navigate to Login/Signup Screen
-              },
-              child: const Text(
-                'Get Started',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+            useMaterial3: true,
+          ),
+          
+          // 👇 Decide where to send the user based on their account status
+          home: AuthScreen(isLogin: hasAccount),
+        );
+      },
     );
   }
 }
