@@ -1,37 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_core/firebase_core.dart'; // 🔥 1. Firebase Import
-import 'firebase_options.dart'; // 🔥 2. Auto-generated Firebase file
-import 'screens/auth_screen.dart'; // 🔐 3. The new Auth Screen
+import 'screens/auth_screen.dart'; 
 
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
 void main() async {
-  // Ensure Flutter is initialized before using SharedPreferences and Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // 🔥 Boot up Firebase!
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   
   final prefs = await SharedPreferences.getInstance();
   
-  // 👇 Check if they have created an account (set in AuthScreen)
-  final hasAccount = prefs.getBool('has_account') ?? false;
-  
-  // Load the saved dark mode preference
+  // 1. Check if dark mode is enabled
   final isDarkMode = prefs.getBool('dark_mode_enabled') ?? false;
   if (isDarkMode) themeNotifier.value = ThemeMode.dark;
 
-  // Pass the hasAccount flag into the app
-  runApp(MindFlowApp(hasAccount: hasAccount));
+  // 👇 Removed the hasAccount check entirely. Just run the app!
+  runApp(const MindFlowApp());
 }
 
 class MindFlowApp extends StatelessWidget {
-  final bool hasAccount; // 👈 Accept the flag here
-
-  const MindFlowApp({super.key, required this.hasAccount});
+  // 👈 Removed the hasAccount variable here too
+  const MindFlowApp({super.key}); 
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +65,8 @@ class MindFlowApp extends StatelessWidget {
             useMaterial3: true,
           ),
           
-          // 👇 Decide where to send the user based on their account status
-          home: AuthScreen(isLogin: hasAccount),
+          //  ALWAYS open strictly to the Login Screen!
+          home: const AuthScreen(isLogin: true),
         );
       },
     );

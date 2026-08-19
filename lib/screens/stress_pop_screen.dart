@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/analytics_service.dart'; // 👈 1. Analytics service imported
 
 class StressPopScreen extends StatefulWidget {
   const StressPopScreen({super.key});
@@ -13,6 +14,7 @@ class _StressPopScreenState extends State<StressPopScreen> {
   late List<bool> _bubbleStates;
   final int _totalBubbles = 108;
   int _poppedCount = 0;
+  bool _hasLoggedUsage = false; // Ensures we log once per session
 
   @override
   void initState() {
@@ -24,12 +26,19 @@ class _StressPopScreenState extends State<StressPopScreen> {
     setState(() {
       _bubbleStates = List.generate(_totalBubbles, (_) => false);
       _poppedCount = 0;
+      _hasLoggedUsage = false; // Reset log flag on new game
     });
   }
 
   // 🎈 PSYC FACT: Rapid, shallow interaction gives a kinetic release of adrenaline.
-  void _popBubble(int index) {
+  Future<void> _popBubble(int index) async {
     if (!_bubbleStates[index]) {
+      // 📊 Automatically log SOS usage on the first bubble pop of the session!
+      if (!_hasLoggedUsage) {
+        _hasLoggedUsage = true;
+        await AnalyticsService.logSOSUsage();
+      }
+
       setState(() {
         _bubbleStates[index] = true;
         _poppedCount++;

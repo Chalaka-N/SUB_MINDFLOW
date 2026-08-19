@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home_dashboard.dart'; // Brings in your newly designed dashboard!
-import 'journal_screen.dart'; // Brings in the new Journal Screen!
-import 'profile_screen.dart'; // Profile screen
-import 'ai_assistant_screen.dart'; // AI Assistant screen
-import 'history_screen.dart'; // 👈 History screen import
+import 'home_dashboard.dart'; 
+import 'journal_screen.dart'; 
+import 'profile_screen.dart'; 
+import 'ai_chat_screen.dart'; // 👈 1. Updated import
+import 'history_screen.dart'; 
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -19,15 +19,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _screens = [
     const HomeDashboard(),
     const JournalScreen(hideBackButton: true), 
-    const HistoryScreen(), // 👈 Added History screen tab!
-    const AiAssistantScreen(), 
+    const HistoryScreen(), 
+    const AIChatScreen(), // 👈 2. Updated to use the fully connected Gemini screen!
     const ProfileScreen(), 
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDFDFD), // Clean white background
+      backgroundColor: const Color(0xFFFDFDFD), 
       body: _screens[_currentIndex],
       
       // 🧭 The Bottom Navigation Bar
@@ -35,7 +35,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF0D2A4A).withValues(alpha: 0.05), // Soft Navy shadow
+              color: const Color(0xFF0D2A4A).withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -5),
             ),
@@ -45,14 +45,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() {
-              _currentIndex = index; // Switches the active screen
+              _currentIndex = index; 
             });
           },
-          backgroundColor: const Color(0xFFFFFFFF), // Pure White
-          selectedItemColor: const Color(0xFF2CB5C0), // Teal for selected tab
-          unselectedItemColor: const Color(0xFF546E7A).withValues(alpha: 0.5), // Faded Slate Gray
+          backgroundColor: const Color(0xFFFFFFFF), 
+          selectedItemColor: const Color(0xFF2CB5C0), 
+          unselectedItemColor: const Color(0xFF546E7A).withValues(alpha: 0.5), 
           showSelectedLabels: true,
-          showUnselectedLabels: false, // Cleaner look without unselected text
+          showUnselectedLabels: false, 
           elevation: 0,
           type: BottomNavigationBarType.fixed,
           items: const [
@@ -65,7 +65,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               label: 'Journal',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history_rounded), // 👈 Added History tab icon!
+              icon: Icon(Icons.history_rounded),
               label: 'History',
             ),
             BottomNavigationBarItem(

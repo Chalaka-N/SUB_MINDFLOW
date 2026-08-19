@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // 👈 Brings in the save feature!
+import 'package:shared_preferences/shared_preferences.dart'; 
 
 class JournalScreen extends StatefulWidget {
   final bool hideBackButton; 
@@ -11,13 +11,13 @@ class JournalScreen extends StatefulWidget {
 }
 
 class _JournalScreenState extends State<JournalScreen> {
-  // 📝 A controller to read and write the text in the box
+  //  A controller to read and write the text in the box
   final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadSavedJournal(); // 👈 Tells the app to load saved text right when it opens
+    _loadSavedJournal(); //  Tells the app to load saved text right when it opens
   }
 
   // 📥 Function to load the saved text
@@ -28,7 +28,7 @@ class _JournalScreenState extends State<JournalScreen> {
     });
   }
 
-  // 💾 Function to save the text
+  //  Function to save the text
   Future<void> _saveJournal() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('saved_journal_entry', _textController.text);
@@ -108,7 +108,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   ],
                 ),
                 child: TextField(
-                  controller: _textController, // 👈 Connects the box to our save logic
+                  controller: _textController, // 
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   decoration: const InputDecoration(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'main_navigation_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -11,17 +10,10 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
-  final TextEditingController _nameController = TextEditingController();
   int _currentPage = 0;
 
-  // 💾 Save the user and mark onboarding as complete
-  Future<void> _completeSignup() async {
-    if (_nameController.text.trim().isEmpty) return;
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('has_completed_onboarding', true);
-    await prefs.setString('user_name', _nameController.text.trim());
-
+  // 🚀 Go to the main app! (Data was already saved on the Sign Up screen)
+  void _finishDemo() {
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
@@ -39,22 +31,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // 🔄 Page Indicator
+            // 🔄 Page Indicator (Skip button)
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 20),
               child: Align(
                 alignment: Alignment.topRight,
                 child: TextButton(
-                  onPressed: _currentPage == 2 ? null : () => _pageController.jumpToPage(2),
+                  onPressed: _currentPage == 1 ? null : () => _pageController.jumpToPage(1),
                   child: Text(
-                    _currentPage == 2 ? '' : 'Skip',
+                    _currentPage == 1 ? '' : 'Skip',
                     style: const TextStyle(color: Color(0xFF546E7A), fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ),
             
-            // 📖 Swipeable Content
+            // 📖 Swipeable Content (Now just 2 Demo pages!)
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -77,40 +69,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     description: 'When everything feels off: High stress? Low energy? Tap the SOS button for instant kinetic relief, or log your mood to track your mental flow over time.',
                     textColor: textColor,
                   ),
-                  
-                  // PAGE 3: The "Sign Up" Screen
-                  Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.person_outline_rounded, size: 80, color: Color(0xFF9163A6)),
-                        const SizedBox(height: 32),
-                        Text(
-                          'Let\'s get started',
-                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: textColor),
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'What should we call you?',
-                          style: TextStyle(fontSize: 16, color: Color(0xFF546E7A)),
-                        ),
-                        const SizedBox(height: 32),
-                        TextField(
-                          controller: _nameController,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your name',
-                            hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF2CB5C0), width: 2),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -121,10 +79,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Dots indicator
+                  // Dots indicator (Updated to 2 dots)
                   Row(
                     children: List.generate(
-                      3,
+                      2,
                       (index) => Container(
                         margin: const EdgeInsets.only(right: 8),
                         height: 8,
@@ -140,8 +98,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // Next / Start Button
                   ElevatedButton(
                     onPressed: () {
-                      if (_currentPage == 2) {
-                        _completeSignup();
+                      if (_currentPage == 1) {
+                        _finishDemo(); // Start the app!
                       } else {
                         _pageController.nextPage(
                           duration: const Duration(milliseconds: 300),
@@ -155,7 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
-                    child: Text(_currentPage == 2 ? 'Start Flowing' : 'Next'),
+                    child: Text(_currentPage == 1 ? 'Start Flowing' : 'Next'),
                   ),
                 ],
               ),
@@ -166,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  // Helper function for the first two pages
+  // Helper function for the pages
   Widget _buildPage({required IconData icon, required Color color, required String title, required String description, required Color textColor}) {
     return Padding(
       padding: const EdgeInsets.all(40.0),
