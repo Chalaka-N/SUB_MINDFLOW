@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "964004169514",
+    "project_id": "mindflow-dee57",
+    "storage_bucket": "mindflow-dee57.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964004169514:android:96c1b119ca0232b68f4053",
+        "android_client_info": {
+          "package_name": "com.chalaka.mindflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBotvFTDOFNINLE8ArRHHiXUzNWTb6Vdk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964004169514:android:d881b2f159bdaeb08f4053",
+        "android_client_info": {
+          "package_name": "com.chalaka.mindflow_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBotvFTDOFNINLE8ArRHHiXUzNWTb6Vdk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

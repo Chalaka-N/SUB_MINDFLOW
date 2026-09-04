@@ -133,13 +133,13 @@ class _StressPopScreenState extends State<StressPopScreen> {
                         color: isPopped ? const Color(0xFF0D2A4A) : currentBubbleColor,
                         shape: BoxShape.circle,
                         border: isPopped
-                            ? Border.all(color: Colors.white.withOpacity(0.1), width: 1)
-                            : Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+                            ? Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1)
+                            : Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
                         boxShadow: isPopped
                             ? []
                             : [
                                 BoxShadow(
-                                  color: currentBubbleColor.withOpacity(0.3),
+                                  color: currentBubbleColor.withValues(alpha: 0.3),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 )
