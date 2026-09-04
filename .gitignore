@@ -1,48 +1,144 @@
+# ==========================================
+# MindFlow - Flutter / Dart .gitignore
+# ==========================================
+
+# ------------------------------------------
 # Miscellaneous
+# ------------------------------------------
 *.class
 *.log
 *.pyc
 *.swp
+*.swo
 .DS_Store
 .atom/
 .build/
 .buildlog/
-.history
+.history/
 .svn/
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+# Crash / JVM error logs
+hs_err_pid*.log
+replay_pid*.log
+
+# ------------------------------------------
+# IntelliJ / Android Studio
+# ------------------------------------------
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# ------------------------------------------
+# VS Code
+# ------------------------------------------
+.vscode/
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# ------------------------------------------
+# Flutter / Dart / Pub
+# ------------------------------------------
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
-/coverage/
+.packages
+build/
+coverage/
 
-# Symbolication related
+# Flutter generated API documentation
+**/doc/api/
+
+# ------------------------------------------
+# Flutter iOS
+# ------------------------------------------
+**/ios/Flutter/.last_build_id
+ios/Flutter/ephemeral/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+
+# ------------------------------------------
+# Android / Gradle
+# ------------------------------------------
+.gradle/
+android/.gradle/
+android/build/
+android/app/build/
+
+# Gradle wrapper generated/local files
+android/local.properties
+android/gradlew
+android/gradlew.bat
+android/gradle/wrapper/gradle-wrapper.jar
+
+# Android generated/native build files
+android/.cxx/
+android/app/.cxx/
+android/captures/
+
+# Android build variants
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# ------------------------------------------
+# Android signing / keystores
+# ------------------------------------------
+key.properties
+**/*.keystore
+**/*.jks
+
+# ------------------------------------------
+# macOS
+# ------------------------------------------
+macos/Flutter/ephemeral/
+macos/Flutter/Generated.xcconfig
+macos/Flutter/flutter_export_environment.sh
+
+# ------------------------------------------
+# Linux
+# ------------------------------------------
+linux/flutter/ephemeral/
+
+# ------------------------------------------
+# Windows
+# ------------------------------------------
+windows/flutter/ephemeral/
+
+# ------------------------------------------
+# Web
+# ------------------------------------------
+# Keep web/index.html and Firebase configuration.
+# Do not ignore the web source files.
+
+# ------------------------------------------
+# Flutter generated plugin registrants
+# ------------------------------------------
+# These files may be tracked by Flutter depending on
+# the project/platform configuration, so do not ignore
+# them globally here.
+# ------------------------------------------
+
+# ------------------------------------------
+# Symbolication / Obfuscation
+# ------------------------------------------
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# ------------------------------------------
+# Firebase / FlutterFire
+# ------------------------------------------
+# Keep these project configuration files tracked:
+# firebase.json
+# lib/firebase_options.dart
+# android/app/google-services.json
 
-# Widget Preview related
-.widget_preview/
+# ------------------------------------------
+# Temporary / IDE files
+# ------------------------------------------
+*.tmp
+*.temp
+*.bak
+*.orig
